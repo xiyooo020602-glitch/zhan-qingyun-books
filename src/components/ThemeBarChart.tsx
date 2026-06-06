@@ -25,10 +25,10 @@ export function ThemeBarChart({ books }: ThemeBarChartProps) {
     <section className="theme-chart-section" aria-labelledby="theme-chart-title">
       <div className="section-heading theme-chart-heading">
         <div>
-          <p className="section-index">03 / THEME CHART</p>
-          <h2 id="theme-chart-title">书单主题分布</h2>
+          <p className="section-index">04 / THEME CHART</p>
+          <h2 id="theme-chart-title">当前收录主题</h2>
         </div>
-        <p>从高频主题看这份书单的精神关键词</p>
+        <p>基于目前收录书籍的关键词统计</p>
       </div>
 
       <div className="theme-chart">
