@@ -3,8 +3,9 @@ import './App.css'
 import { BookCard } from './components/BookCard'
 import { BookModal } from './components/BookModal'
 import { FilterBar } from './components/FilterBar'
-import { Heatmap } from './components/Heatmap'
+import { SpiritMap } from './components/SpiritMap'
 import { StatsPanel } from './components/StatsPanel'
+import { ThemeBarChart } from './components/ThemeBarChart'
 import { books } from './data/books'
 import type { Book } from './data/books'
 
@@ -148,7 +149,8 @@ function App() {
         )}
       </section>
 
-      <Heatmap books={books} />
+      <SpiritMap books={books} />
+      <ThemeBarChart books={books} />
 
       <footer>
         <p>詹青云推荐书籍大全</p>

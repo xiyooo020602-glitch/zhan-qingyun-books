@@ -1,73 +1,63 @@
-# React + TypeScript + Vite
+# 詹青云推荐书籍大全
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+一个使用 Vite、React 和 TypeScript 构建的静态书籍档案网站，用于整理詹青云在公开节目、访谈、文章与分享中推荐、提及、引用讨论或相关延伸的书籍。
 
-Currently, two official plugins are available:
+数据维护规范和表格模板见 [DATA_TEMPLATE.md](./DATA_TEMPLATE.md)。
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 如何新增一本书
 
-## React Compiler
+1. 打开 `src/data/books.ts`。
+2. 在 `books` 数组末尾复制一条现有对象。
+3. 分配一个未使用的 `id`，并填写全部字段。
+4. `themes` 和 `tags` 使用字符串数组，例如 `['公共表达', '自由']`。
+5. 保存后运行 `npm run build` 和 `npm run lint` 检查数据格式。
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+字段含义、允许使用的枚举值以及可复制的表格模板见 [DATA_TEMPLATE.md](./DATA_TEMPLATE.md)。
 
-## Expanding the ESLint configuration
+## 如何添加封面
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1. 将图片放入 `public/covers`。
+2. 推荐使用书籍 `id` 命名，例如 `public/covers/13.jpg`。
+3. 在书籍数据中填写 `cover: '/covers/13.jpg'`。
+4. 没有封面时填写 `cover: ''`，页面会自动显示 MUJI 风占位封面。
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+建议使用竖版书封图片。页面会保持统一的 `2:3` 展示比例，不要在数据中填写本机绝对路径。
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 如何标记来源可信度
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+`sourceType` 使用以下值：
+
+- `明确推荐`：一手来源能确认推荐语境。
+- `公开提到`：公开内容中提到了书，但没有明确推荐。
+- `引用讨论`：引用书中内容或观点展开讨论。
+- `主题延伸`：相关议题的延伸阅读，不代表直接提到。
+
+`verifyStatus` 使用以下值：
+
+- `已核验`：已检查原始内容，来源和语境相符。
+- `待核验`：尚未找到或尚未完整检查一手来源。
+
+没有可靠来源时，应使用 `sourceType: '主题延伸'`、`verifyStatus: '待核验'`，并将 `sourceUrl` 留空。
+
+## 如何运行网站
+
+安装依赖：
+
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+启动本地开发服务器：
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+npm run dev
+```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+默认访问地址为 `http://127.0.0.1:5173/` 或终端中 Vite 显示的地址。
+
+构建和检查：
+
+```bash
+npm run build
+npm run lint
 ```
