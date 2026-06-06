@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+import type { CSSProperties } from 'react'
 import type { Book } from '../data/books'
 
 type AuthorCloudProps = {
@@ -46,14 +47,14 @@ export function AuthorCloud({ books }: AuthorCloudProps) {
             key={author}
             title={`${count} 本书`}
             style={{
-              fontSize: `${1 + weight * 0.5}rem`,
+              '--author-weight': weight,
               color:
                 index % 3 === 0
                   ? 'var(--green-dark)'
                   : index % 3 === 1
                     ? '#476455'
                     : '#666b63',
-            }}
+            } as CSSProperties}
           >
             {author}
             <small>{count}</small>
