@@ -10,34 +10,44 @@ import type { Book } from './data/books'
 
 function App() {
   const [query, setQuery] = useState('')
-  const [topic, setTopic] = useState('全部')
+  const [theme, setTheme] = useState('全部')
   const [sourceType, setSourceType] = useState('全部')
+  const [verifyStatus, setVerifyStatus] = useState('全部')
+  const [readingStatus, setReadingStatus] = useState('全部')
   const [selectedBook, setSelectedBook] = useState<Book | null>(null)
 
-  const topics = useMemo(
-    () => ['全部', ...new Set(books.map((book) => book.topic))],
+  const themes = useMemo(
+    () => ['全部', ...new Set(books.flatMap((book) => book.themes))],
     [],
   )
-  const sourceTypes = useMemo(
-    () => ['全部', ...new Set(books.map((book) => book.sourceType))],
-    [],
-  )
+  const sourceTypes = ['全部', '明确推荐', '公开提到', '引用讨论', '主题延伸']
+  const verifyStatuses = ['全部', '已核验', '待核验']
+  const readingStatuses = ['全部', '想读', '在读', '读过', '暂不确定']
+
+  const clearFilters = () => {
+    setQuery('')
+    setTheme('全部')
+    setSourceType('全部')
+    setVerifyStatus('全部')
+    setReadingStatus('全部')
+  }
 
   const filteredBooks = useMemo(() => {
     const keyword = query.trim().toLowerCase()
 
     return books.filter((book) => {
-      const matchesTopic = topic === '全部' || book.topic === topic
+      const matchesTheme = theme === '全部' || book.themes.includes(theme)
       const matchesSource =
         sourceType === '全部' || book.sourceType === sourceType
+      const matchesVerify =
+        verifyStatus === '全部' || book.verifyStatus === verifyStatus
+      const matchesReading =
+        readingStatus === '全部' || book.status === readingStatus
       const matchesQuery =
         !keyword ||
         [
           book.title,
           book.author,
-          book.topic,
-          book.notes,
-          book.sourceType,
           book.sourceTitle,
           book.evidence,
           book.readingValue,
@@ -45,9 +55,15 @@ function App() {
           ...book.themes,
         ].some((value) => value.toLowerCase().includes(keyword))
 
-      return matchesTopic && matchesSource && matchesQuery
+      return (
+        matchesTheme &&
+        matchesSource &&
+        matchesVerify &&
+        matchesReading &&
+        matchesQuery
+      )
     })
-  }, [query, sourceType, topic])
+  }, [query, readingStatus, sourceType, theme, verifyStatus])
 
   return (
     <main>
@@ -81,16 +97,26 @@ function App() {
 
       <FilterBar
         query={query}
-        topic={topic}
-        topics={topics}
+        theme={theme}
+        themes={themes}
         sourceType={sourceType}
         sourceTypes={sourceTypes}
+        verifyStatus={verifyStatus}
+        verifyStatuses={verifyStatuses}
+        readingStatus={readingStatus}
+        readingStatuses={readingStatuses}
         onQueryChange={setQuery}
-        onTopicChange={setTopic}
+        onThemeChange={setTheme}
         onSourceTypeChange={setSourceType}
+        onVerifyStatusChange={setVerifyStatus}
+        onReadingStatusChange={setReadingStatus}
+        onClear={clearFilters}
       />
 
-      <StatsPanel books={books} topicCount={topics.length - 1} />
+      <StatsPanel
+        books={books}
+        topicCount={new Set(books.map((book) => book.topic)).size}
+      />
 
       <section className="books-section" aria-labelledby="books-title">
         <div className="section-heading">
@@ -114,15 +140,8 @@ function App() {
           </div>
         ) : (
           <div className="empty-state">
-            <p>没有找到匹配的书。</p>
-            <button
-              type="button"
-              onClick={() => {
-                setQuery('')
-                setTopic('全部')
-                setSourceType('全部')
-              }}
-            >
+            <p>暂时没有找到符合条件的书，也许可以换个关键词试试。</p>
+            <button type="button" onClick={clearFilters}>
               清除筛选
             </button>
           </div>

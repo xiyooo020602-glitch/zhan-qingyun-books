@@ -1,4 +1,5 @@
 import type { Book } from '../data/books'
+import { BookCover } from './BookCover'
 
 type BookCardProps = {
   book: Book
@@ -21,11 +22,11 @@ export function BookCard({ book, index, onSelect }: BookCardProps) {
         }
       }}
     >
-      <div className="book-cover" style={{ backgroundColor: book.coverColor }}>
-        {book.cover && <img src={book.cover} alt={`${book.title}封面`} />}
-        <small>{String(index + 1).padStart(2, '0')}</small>
-        <strong>{book.title}</strong>
-        <small>{book.year > 0 ? book.year : `公元前 ${Math.abs(book.year)}`}</small>
+      <div className="book-cover-wrap">
+        <BookCover book={book} size="card" />
+        <span className="book-number">
+          {String(index + 1).padStart(2, '0')}
+        </span>
       </div>
       <div className="book-meta">
         <div className="book-badges">

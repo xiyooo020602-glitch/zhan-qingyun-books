@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import type { Book } from '../data/books'
+import { BookCover } from './BookCover'
 
 type BookModalProps = {
   book: Book
@@ -55,21 +56,8 @@ export function BookModal({ book, onClose }: BookModalProps) {
           <span aria-hidden="true">×</span>
         </button>
 
-        <div
-          className="modal-cover"
-          style={{ backgroundColor: book.coverColor }}
-        >
-          {book.cover ? (
-            <img src={book.cover} alt={`${book.title}封面`} />
-          ) : (
-            <>
-              <small>{book.topic}</small>
-              <strong>{book.title}</strong>
-              <small>
-                {book.year > 0 ? book.year : `公元前 ${Math.abs(book.year)}`}
-              </small>
-            </>
-          )}
+        <div className="modal-cover-wrap">
+          <BookCover book={book} size="modal" />
         </div>
 
         <div className="modal-content">
@@ -91,7 +79,7 @@ export function BookModal({ book, onClose }: BookModalProps) {
           </div>
 
           <div className="modal-tags">
-            {[...book.tags, ...book.themes].map((item) => (
+            {[...new Set([...book.tags, ...book.themes])].map((item) => (
               <span key={item}>{item}</span>
             ))}
           </div>
