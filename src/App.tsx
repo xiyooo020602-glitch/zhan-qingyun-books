@@ -116,7 +116,7 @@ function App() {
 
       <StatsPanel
         books={books}
-        topicCount={new Set(books.map((book) => book.topic)).size}
+        topicCount={new Set(books.flatMap((book) => book.themes)).size}
       />
 
       <section className="books-section" aria-labelledby="books-title">

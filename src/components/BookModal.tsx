@@ -74,13 +74,18 @@ export function BookModal({ book, onClose }: BookModalProps) {
             >
               {book.verifyStatus}
             </span>
-            <span>{book.difficulty}</span>
+            <span>难度 {book.difficulty}/5</span>
             <span>{book.status}</span>
           </div>
 
           <div className="modal-tags">
-            {[...new Set([...book.tags, ...book.themes])].map((item) => (
-              <span key={item}>{item}</span>
+            {book.themes.map((theme) => (
+              <span className="modal-theme" key={theme}>
+                {theme}
+              </span>
+            ))}
+            {book.tags.map((tag) => (
+              <span key={tag}>{tag}</span>
             ))}
           </div>
 

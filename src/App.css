@@ -455,31 +455,35 @@ h1 {
   font-size: 0.76rem;
 }
 
-.book-details {
+.book-card-tags {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-bottom: 13px;
+}
+
+.book-card-tags span {
+  color: #77796f;
+  font-size: 0.62rem;
+}
+
+.book-card-tags span::before {
+  content: '#';
+  margin-right: 2px;
+  color: #9aaf9f;
+}
+
+.book-value {
+  display: -webkit-box;
   margin: auto 0 0;
   padding-top: 14px;
   border-top: 1px solid #e8e5d9;
-}
-
-.book-details p {
-  display: -webkit-box;
-  margin: 0;
   overflow: hidden;
   color: #76786f;
   font-size: 0.7rem;
   line-height: 1.65;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
-}
-
-.book-details p + p {
-  margin-top: 7px;
-}
-
-.book-details span {
-  margin-right: 7px;
-  color: var(--green-dark);
-  font-weight: 600;
 }
 
 .modal-overlay {
@@ -609,6 +613,10 @@ h1 {
 .modal-tags span {
   color: var(--green-dark);
   font-size: 0.7rem;
+}
+
+.modal-tags .modal-theme {
+  font-weight: 600;
 }
 
 .modal-tags span::before {

@@ -30,24 +30,28 @@ export function BookCard({ book, index, onSelect }: BookCardProps) {
       </div>
       <div className="book-meta">
         <div className="book-badges">
-          <span className="book-topic">{book.topic}</span>
+          {book.themes.map((theme) => (
+            <span className="book-topic" key={theme}>
+              {theme}
+            </span>
+          ))}
           <span className="source-type">{book.sourceType}</span>
-          <span className={`verify-status ${book.verifyStatus === '已核验' ? 'verified' : ''}`}>
+          <span
+            className={`verify-status ${
+              book.verifyStatus === '已核验' ? 'verified' : ''
+            }`}
+          >
             {book.verifyStatus}
           </span>
         </div>
         <h3>{book.title}</h3>
         <p className="book-author">{book.author}</p>
-        <div className="book-details">
-          <p>
-            <span>收录依据</span>
-            {book.evidence}
-          </p>
-          <p>
-            <span>阅读价值</span>
-            {book.readingValue}
-          </p>
+        <div className="book-card-tags">
+          {book.tags.slice(0, 3).map((tag) => (
+            <span key={tag}>{tag}</span>
+          ))}
         </div>
+        <p className="book-value">{book.readingValue}</p>
       </div>
     </article>
   )

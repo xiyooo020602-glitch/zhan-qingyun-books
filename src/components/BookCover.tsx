@@ -25,7 +25,7 @@ export function BookCover({ book, size }: BookCoverProps) {
             <strong>{book.title}</strong>
             <span>{book.author}</span>
           </div>
-          <span className="cover-topic">{book.topic}</span>
+          <span className="cover-topic">{book.themes[0] ?? '阅读档案'}</span>
         </div>
       )}
     </div>
